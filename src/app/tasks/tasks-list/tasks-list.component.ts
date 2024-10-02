@@ -1,6 +1,16 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DoCheck,
+  OnChanges,
+  OnInit,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 
 import { TaskItemComponent } from './task-item/task-item.component';
+import { TaskService } from '../task.service';
+import { Task } from '../task.model';
 
 @Component({
   selector: 'app-tasks-list',
@@ -10,8 +20,29 @@ import { TaskItemComponent } from './task-item/task-item.component';
   imports: [TaskItemComponent],
 })
 export class TasksListComponent {
-  selectedFilter = signal<string>('all');
-  tasks = [];
+  private selectedFilter = signal<string>('all');
+  tasks = computed(() => {
+    switch (this.selectedFilter()) {
+      case 'open':
+        return this.taskService
+          .allTasks()
+          .filter((item) => item.status === 'OPEN');
+      case 'in-progress':
+        return this.taskService
+          .allTasks()
+          .filter((item) => item.status === 'IN_PROGRESS');
+      case 'done':
+        return this.taskService
+          .allTasks()
+          .filter((item) => item.status === 'DONE');
+      default:
+        return this.taskService.allTasks();
+    }
+  });
+
+  constructor(
+    private taskService: TaskService
+  ) { }
 
   onChangeTasksFilter(filter: string) {
     this.selectedFilter.set(filter);
