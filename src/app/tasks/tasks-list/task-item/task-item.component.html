@@ -1,19 +1,19 @@
 <article
   [class]="{
-    'status-open': task().status === 'OPEN',
-    'status-in-progress': task().status === 'IN_PROGRESS',
-    'status-done': task().status === 'DONE'
+    'status-open': task.status === 'OPEN',
+    'status-in-progress': task.status === 'IN_PROGRESS',
+    'status-done': task.status === 'DONE'
   }"
 >
   <header>
-    <h3>{{ task().title }}</h3>
-    <p>{{ taskStatus() }}</p>
+    <h3>{{ task.title }}</h3>
+    <p>{{ taskStatus }}</p>
   </header>
-  <p>{{ task().description }}</p>
-  <form (ngSubmit)="onChangeTaskStatus(task().id, status.value)">
+  <p>{{ task.description }}</p>
+  <form (ngSubmit)="onChangeTaskStatus(task.id, status.value)">
     <select #status>
       @for ( option of statusOptions ; track option.text) {
-        <option [value]="option.value" [selected]="task().status === option.taskStatus">{{ option.text }}</option>
+        <option [value]="option.value" [selected]="task.status === option.taskStatus">{{ option.text }}</option>
       }
     </select>
     <p>

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { STATUS_INJECTION_TOKEN, Task, TaskStatus } from '../../task.model';
@@ -12,15 +12,15 @@ import { TaskService } from '../../task.service';
   styleUrl: './task-item.component.css',
 })
 export class TaskItemComponent {
-  task = input.required<Task>();
+  @Input({required: true}) task!: Task
   statusOptions = inject(STATUS_INJECTION_TOKEN);
 
   constructor(
     private taskService: TaskService
   ) {}
 
-  taskStatus = computed(() => {
-    switch (this.task().status) {
+   get taskStatus() {
+    switch (this.task.status) {
       case 'OPEN':
         return 'Open';
       case 'IN_PROGRESS':
@@ -30,7 +30,7 @@ export class TaskItemComponent {
       default:
         return 'Open';
     }
-  });
+  };
 
   onChangeTaskStatus(taskId: string, status: string) {
     let newStatus: TaskStatus = 'OPEN';
