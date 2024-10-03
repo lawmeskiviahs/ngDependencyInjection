@@ -1,16 +1,12 @@
 import {
   Component,
   computed,
-  DoCheck,
-  OnChanges,
-  OnInit,
+  inject,
   signal,
-  SimpleChanges,
 } from '@angular/core';
 
 import { TaskItemComponent } from './task-item/task-item.component';
-import { TaskService } from '../task.service';
-import { Task } from '../task.model';
+import { TasksInjectionToken } from '../../../main';
 
 @Component({
   selector: 'app-tasks-list',
@@ -21,6 +17,7 @@ import { Task } from '../task.model';
 })
 export class TasksListComponent {
   private selectedFilter = signal<string>('all');
+  private taskService = inject(TasksInjectionToken)
   tasks = computed(() => {
     switch (this.selectedFilter()) {
       case 'open':
@@ -39,10 +36,6 @@ export class TasksListComponent {
         return this.taskService.allTasks();
     }
   });
-
-  constructor(
-    private taskService: TaskService
-  ) { }
 
   onChangeTasksFilter(filter: string) {
     this.selectedFilter.set(filter);

@@ -1,8 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, Inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Task, TaskStatus } from '../../task.model';
 import { TaskService } from '../../task.service';
+import { TasksInjectionToken } from '../../../../main';
 
 @Component({
   selector: 'app-task-item',
@@ -15,7 +16,7 @@ export class TaskItemComponent {
   task = input.required<Task>();
 
   constructor(
-    private taskService: TaskService
+    @Inject(TasksInjectionToken) private taskService: TaskService
   ) {}
 
   taskStatus = computed(() => {
