@@ -1,16 +1,11 @@
 import {
   Component,
   computed,
-  DoCheck,
-  OnChanges,
-  OnInit,
   signal,
-  SimpleChanges,
 } from '@angular/core';
 
 import { TaskItemComponent } from './task-item/task-item.component';
 import { TaskService } from '../task.service';
-import { Task } from '../task.model';
 
 @Component({
   selector: 'app-tasks-list',
